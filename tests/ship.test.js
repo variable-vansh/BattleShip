@@ -1,4 +1,4 @@
-const Ship = require('./ship')
+const Ship = require('../modules/ship')
 
 test('ship is being created with right properties', () => {
     let newShip = new Ship(5);

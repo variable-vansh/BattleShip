@@ -1,5 +1,5 @@
-const Gameboard = require('./gameBoard')
-const Ship = require('./ship')
+const Gameboard = require('../modules/gameBoard')
+const Ship = require('../modules/ship')
 
 test('GameBoard is being created with right properties', () => {
     let newBoard = new Gameboard();

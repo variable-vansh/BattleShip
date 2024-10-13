@@ -23,9 +23,9 @@ class Gameboard {
     //takes in ship type, orientation, x, y values to place ship on board while game setup
     placeShip(ship, orientation, x, y) {
         //checks if the required cells are vacant
-        let vacacyCondition = vacacyConditionFunction(ship, orientation, x, y, this)
+        let vacancyCondition = vacacyConditionFunction(ship, orientation, x, y, this)
 
-        if (vacacyCondition) {
+        if (vacancyCondition) {
             if (orientation == 'horizontal') {
                 for (let i = 0; i < ship.length; i++) {
                     //1 for occupied spot
@@ -80,7 +80,7 @@ class Gameboard {
         //or no ship here, missed it
         if (this.boardArr[x][y] == 2 || this.boardArr[x][y] == -1) {
             //nothing to do
-            console.log("already hit here bhai")
+            // console.log("already hit here bhai")
             return;
         }
 
