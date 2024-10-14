@@ -7,10 +7,11 @@
 class Ship {
 
     //makes a ship object that contains it's length, number of hits takes, is it sunken..
-    constructor(length) {
+    constructor(length, uid) {
         this.length = length;
         this.hitsTaken = 0;
         this.sunk = false;
+        this.uid = uid;
     }
 
     hit() {
@@ -28,4 +29,5 @@ class Ship {
 }
 
 
-module.exports = Ship 
+// module.exports = Ship
+export default Ship;

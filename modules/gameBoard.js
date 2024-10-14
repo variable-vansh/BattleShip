@@ -5,7 +5,7 @@
 // Gameboards should keep track of missed attacks so they can display them properly.
 // Gameboards should be able to report whether or not all of their ships have been sunk.
 
-const { check } = require("yargs");
+// const { check } = require("yargs");
 
 class Gameboard {
     //made a 10x10 board
@@ -29,7 +29,7 @@ class Gameboard {
             if (orientation == 'horizontal') {
                 for (let i = 0; i < ship.length; i++) {
                     //1 for occupied spot
-                    this.boardArr[x][y + i] = 1;
+                    this.boardArr[x][y + i] = ship.uid;
                 }
                 // console.log(this.boardArr)
                 return 'ship placed successfully'
@@ -37,12 +37,13 @@ class Gameboard {
             if (orientation == 'vertical') {
                 for (let i = 0; i < ship.length; i++) {
                     //1 for occupied spot
-                    this.boardArr[x + i][y] = 1;
+                    this.boardArr[x + i][y] = ship.uid;
                 }
                 return 'ship placed successfully'
             }
         }
-        return 'unplaced, invalid co-ordinates'
+        alert("invalid ship placement")
+        return
     }
 
     //take in pair of co-ordinates
@@ -86,6 +87,40 @@ class Gameboard {
 
     }
 
+    display(block) {
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                let cellBoard = document.createElement("div");
+                cellBoard.classList.add("cellBoard")
+                cellBoard.innerText = this.boardArr[i][j]
+
+                if (cellBoard.innerHTML == 'C') {
+                    cellBoard.style.backgroundColor = 'violet'
+                }
+                if (cellBoard.innerHTML == 'B') {
+                    cellBoard.style.backgroundColor = 'green'
+                }
+                if (cellBoard.innerHTML == 'D') {
+                    cellBoard.style.backgroundColor = 'yellow'
+                }
+                if (cellBoard.innerHTML == 'P') {
+                    cellBoard.style.backgroundColor = 'orange'
+                }
+                if (cellBoard.innerHTML == 'S') {
+                    cellBoard.style.backgroundColor = 'blue'
+                }
+
+                let cellCover = document.createElement('div')
+                cellCover.classList.add("cellCover")
+
+
+                block.appendChild(cellBoard)
+                block.appendChild(cellCover)
+            }
+        }
+    }
+
+
 
 
 }
@@ -124,4 +159,5 @@ function checkAllShips(boardArr) {
     return false;
 }
 
-module.exports = Gameboard;
+// module.exports = Gameboard;
+export default Gameboard;

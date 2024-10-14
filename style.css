@@ -1,0 +1,94 @@
+* {
+    margin: 0px;
+}
+
+#boards {
+    display: flex;
+}
+
+#board1,
+#board2 {
+    height: 500px;
+    width: 500px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    border: 10px solid red;
+
+}
+
+/* #board1 {
+    height: 500px;
+    width: 500px;
+
+
+    /* background-color: antiquewhite; */
+/* }
+
+#board2 {
+    height: 500px;
+    width: 500px;
+
+    background-color: aquamarine;
+} */
+
+
+/* .cellBoard1,
+.cellBoard2 {
+    height: 50px;
+    width: 50px;
+
+    color: white;
+    background-color: black;
+    border: solid 1px red;
+
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 20px;
+    font-weight: bolder;
+
+    opacity: 100%;
+} */
+
+.cellBoard {
+    height: 50px;
+    width: 50px;
+
+    color: white;
+    background-color: black;
+    border: solid 1px red;
+
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 20px;
+    font-weight: bolder;
+
+    opacity: 100%;
+}
+
+.celllCover {
+    position: absolute;
+    top: 10px;
+    /* adjust to border width */
+    left: 10px;
+    /* adjust to border width */
+    right: 10px;
+    /* adjust to border width */
+    bottom: 10px;
+    /* adjust to border width */
+    background-color: #fff;
+    /* or any other color */
+    opacity: 1;
+    /* initial opacity */
+    transition: opacity 0.5s;
+    /* smooth transition */
+}
