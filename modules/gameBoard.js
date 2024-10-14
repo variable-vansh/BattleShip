@@ -115,7 +115,7 @@ class Gameboard {
 
 
                 block.appendChild(cellBoard)
-                block.appendChild(cellCover)
+                cellBoard.appendChild(cellCover)
             }
         }
     }
