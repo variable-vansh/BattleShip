@@ -1,9 +1,15 @@
 * {
     margin: 0px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 #boards {
     display: flex;
+    flex-direction: row;
 }
 
 #board1,
@@ -21,8 +27,6 @@
 /* #board1 {
     height: 500px;
     width: 500px;
-
-
     /* background-color: antiquewhite; */
 /* }
 
@@ -32,8 +36,6 @@
 
     background-color: aquamarine;
 } */
-
-
 /* .cellBoard1,
 .cellBoard2 {
     height: 50px;
@@ -60,17 +62,19 @@
 .cellBoard {
     height: 50px;
     width: 50px;
+
     color: white;
     background-color: black;
     border: solid 1px black;
     box-sizing: border-box;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     font-size: 20px;
     font-weight: bolder;
     position: relative;
-    /* Add this */
 }
 
 .cellCover {
@@ -89,4 +93,29 @@
 /* Add this to hide the cover when cell is revealed */
 .cellCover.revealed {
     opacity: 0;
+}
+
+#turnBox {
+    height: 50px;
+    width: 40vw;
+
+    background-color: lightcoral;
+}
+
+.coordsInput {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    height: 50px;
+    width: 40vw;
+
+}
+
+.attackInput {
+    display: flex;
+    background-color: cyan;
+    align-items: center;
+    justify-content: space-around;
 }

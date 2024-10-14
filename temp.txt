@@ -1,0 +1,45 @@
+- 2 new boards created
+    - board1
+    - board2
+- 2 new players created
+    - using board, type(real/computer), active(true/false), UID(p1/p2)
+        - player1
+        - player2
+- 5 types of ships created
+- initially, player1 set inactive, player2 active
+- DOM for attackButton, input coordinates (attackXInput/ attackYInput)
+- dummy placement of ships on board 1 and 2
+- 2 blocks created, they hold all the squares
+- both boards are displayed by taking in the block1/block2 and player-UID  
+    inside the .display
+        - all previous content in block is cleared
+        - a 2d loop runs (0 to 9) -> (0 to 9)
+            - new cellBoard div created 
+            - common class added to all
+            - unique id assigned to each: 'cell-1-1-p1'
+            - innerText of cell set from the main board array
+            - now look up each cell to match with revealed cell 
+                - an array 'revealedCells' is maintained for each board that keeps a record of all the cells that have been revealed
+            - a cell cover created and class 'cellCover' added to name
+            - if a cell is found to be a part of the revealed array, class 'revealed' is added to the cell cover.
+            - now the innertext of cell is matched with ship code, and colors set appropriately
+            - the cell-cover is then appended to the cell
+            - the cell is then appended to the block
+- the display functions created a full table with elements, revealed annd unrevealed
+
+-now in the event handler
+        - the default action of submitting the form is prevented
+        - the x,y input co-ordinates extracted
+        - inactive player's board recieves an attack
+            - the attack takes in x,y co-ords, inactive player's UID so that the exact spot can be identified
+                 - the exact cell in question in extracted usinf id 'cell-1-1-p1'
+                 - the cover div of that particular cell is also extracted
+                 - class 'revealed' is added to the cover
+                 - the cell co-ords,UID saved to revealed cell array
+                 - the cell content is checked, and appropriately changed
+                    - all ships sunk codition also checked (Game Over)
+        - block1,2 is picked
+        - display function applied on both blocks
+            - takes in block and player UID and build the whole table 
+        - active player switched
+        - input element values set to null

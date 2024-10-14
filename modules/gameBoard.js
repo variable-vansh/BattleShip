@@ -10,12 +10,14 @@
 class Gameboard {
     //made a 10x10 board
     constructor() {
+        this.revealedCells = [];
         this.boardArr = [];
         for (let x = 0; x < 10; x++) {
             this.boardArr[x] = [];
             for (let y = 0; y < 10; y++) {
                 //0 for vacant spot
                 this.boardArr[x][y] = 0;
+                // this.boardArr[x][y] = `(${x},${y})`;
             }
         }
     }
@@ -42,18 +44,31 @@ class Gameboard {
                 return 'ship placed successfully'
             }
         }
-        alert("invalid ship placement")
+        // alert("invalid ship placement")
         return
     }
 
     //take in pair of co-ordinates
     //if ship present there, update hit() function
     //if ship not present, mark the missed spot, such that same spot cannot be hit again
-    recieveAttack(x, y) {
-        //0  -Vacant Spot
-        //1  -Intact ship
-        //2  -Ship has been hit
-        //-1 -Missed hit 
+    recieveAttack(x, y, UID) {
+        //0 -Vacant Spot
+        //1 -Intact ship
+        //2 -Ship has been hit
+        //-1 -Missed hit
+
+        // Convert x and y to integers
+        x = parseInt(x);
+        y = parseInt(y);
+
+        console.log(`working on (${x + y}) of player: ${UID}`)
+
+        // console.log(this.boardArr[x][y])
+        let cell = document.getElementById(`cell-${x}-${y}-${UID}`);
+        let cellCover = cell.querySelector('.cellCover');
+        cellCover.classList.add('revealed');
+        this.revealedCells.push([x, y, UID]);
+
 
         //intact ship
         if (this.boardArr[x][y] == 1) {
@@ -66,6 +81,7 @@ class Gameboard {
                 return
             }
 
+            // this.revealedCells.push([x, y]);
             return;
         }
 
@@ -87,12 +103,23 @@ class Gameboard {
 
     }
 
-    display(block) {
+    display(block, UID) {
+        block.innerHTML = '';
+
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
                 let cellBoard = document.createElement("div");
                 cellBoard.classList.add("cellBoard")
+                cellBoard.id = `cell-${i}-${j}-${UID}` // Add an ID to the cell
                 cellBoard.innerText = this.boardArr[i][j]
+
+                let cellCover = document.createElement('div')
+                cellCover.classList.add("cellCover")
+
+                // Check if the cell has been revealed
+                if (this.revealedCells.find(cell => cell[0] === i && cell[1] === j && cell[2] === UID)) {
+                    cellCover.classList.add('revealed') // Reveal the cell
+                }
 
                 if (cellBoard.innerHTML == 'C') {
                     cellBoard.style.backgroundColor = 'violet'
@@ -110,18 +137,11 @@ class Gameboard {
                     cellBoard.style.backgroundColor = 'blue'
                 }
 
-                let cellCover = document.createElement('div')
-                cellCover.classList.add("cellCover")
-
-
-                block.appendChild(cellBoard)
                 cellBoard.appendChild(cellCover)
+                block.appendChild(cellBoard)
             }
         }
     }
-
-
-
 
 }
 
