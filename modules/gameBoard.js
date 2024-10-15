@@ -58,17 +58,20 @@ class Gameboard {
         //-1 -Missed hit
 
         // Convert x and y to integers
-        x = parseInt(x);
-        y = parseInt(y);
+        // x = parseInt(x);
+        // y = parseInt(y);
 
-        console.log(`working on (${x + y}) of player: ${UID}`)
+        console.log(`hit on (${x},${y}) of player: ${UID}`)
+
 
         // console.log(this.boardArr[x][y])
         let cell = document.getElementById(`cell-${x}-${y}-${UID}`);
         let cellCover = cell.querySelector('.cellCover');
-        cellCover.classList.add('revealed');
-        this.revealedCells.push([x, y, UID]);
 
+        if (cellCover) {
+            cellCover.classList.add('revealed');
+            this.revealedCells.push([x, y, UID]);
+        }
 
         //intact ship
         if (this.boardArr[x][y] == 1) {
@@ -108,12 +111,12 @@ class Gameboard {
 
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
-                let cellBoard = document.createElement("div");
+                let cellBoard = document.createElement("button");
                 cellBoard.classList.add("cellBoard")
                 cellBoard.id = `cell-${i}-${j}-${UID}` // Add an ID to the cell
                 cellBoard.innerText = this.boardArr[i][j]
 
-                let cellCover = document.createElement('div')
+                let cellCover = document.createElement('button')
                 cellCover.classList.add("cellCover")
 
                 // Check if the cell has been revealed
@@ -139,6 +142,34 @@ class Gameboard {
 
                 cellBoard.appendChild(cellCover)
                 block.appendChild(cellBoard)
+
+                // let cellCovers = document.getElementsByClassName('cellCover');
+
+                // for (let i = 0; i < cellCovers.length; i++) {
+                //     cellCovers[i].addEventListener('click', function (event) {
+                //         let cellBoardId = this.parentElement.id;
+                //         let xAttack = cellBoardId.charAt(5);
+                //         let yAttack = cellBoardId.charAt(7);
+
+                //         console.log(xAttack);
+                //         console.log(yAttack);
+
+
+
+                //     });
+                // }
+            }
+        }
+
+    }
+
+    resetBoard() {
+        this.revealedCells = [];
+        this.boardArr = [];
+        for (let x = 0; x < 10; x++) {
+            this.boardArr[x] = [];
+            for (let y = 0; y < 10; y++) {
+                this.boardArr[x][y] = 0;
             }
         }
     }

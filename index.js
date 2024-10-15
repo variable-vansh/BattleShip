@@ -41,113 +41,230 @@ attackButton.addEventListener('click', function (e) {
     // Prevent the default form submission behavior
     e.preventDefault();
 
-    console.log(activePlayer)
-    let attackX = attackXInput.value;
-    let attackY = attackYInput.value;
-    console.log(attackX, attackY)
+    let attackX = parseInt(attackXInput.value);
+    let attackY = parseInt(attackYInput.value);
+
+    //game working logic
+    let isGameOver = gameWorkLogic(attackX, attackY)
+    if (isGameOver) {
+        attackButton.disabled = true;
+        setTimeout(gameOverAction, 500)
+    }
+    // console.log(attackX, attackY)
 
     //active player attacks
     //inactive player recieves attack
+
     inactivePlayer.board.recieveAttack(attackX, attackY, inactivePlayer.UID)
 
     let block1 = document.getElementById("board1")
     let block2 = document.getElementById("board2")
     board1.display(block1, player1.UID);
     board2.display(block2, player2.UID);
+    let cellCovers = document.getElementsByClassName('cellCover');
 
+    clickBlockToReveal()
     //switch active player
     let temp = activePlayer
     activePlayer = inactivePlayer
     inactivePlayer = temp;
 
     attackXInput.value = ''
-    attackYInput.value = ''
+    attackYInput.value = '';
 }
 )
+
+let randomPlaceShips = document.getElementById('randomPlaceShips');
+randomPlaceShips.addEventListener('click', function () {
+    if (placeShipsRandomly()) {
+        // Update the display after successful placement
+        board1.display(block1, player1.UID);
+        board2.display(block2, player2.UID);
+        clickBlockToReveal();
+    } else {
+        alert("Failed to place ships randomly. Please try again.");
+    }
+});
 
 //dummy play
 // player1.turn = true;
 // player1.turnDisplay('player1');
-board2.placeShip(destroyer, 'vertical', 2, 2)
-board2.placeShip(submarine, 'vertical', 4, 4)
-board2.placeShip(carrier, 'horizontal', 9, 0)
-board2.placeShip(battleship, 'horizontal', 0, 0)
-board2.placeShip(patrolBoat, 'vertical', 0, 9)
-
-board1.placeShip(destroyer, 'vertical', 0, 0)
-board1.placeShip(submarine, 'vertical', 3, 2)
-board1.placeShip(carrier, 'horizontal', 5, 5)
-board1.placeShip(battleship, 'horizontal', 8, 0)
-board1.placeShip(patrolBoat, 'vertical', 0, 9)
-
-
-
-// board2.patrolBoat(destroyer, 'vertical', 2, 3)
 // board2.placeShip(destroyer, 'vertical', 2, 2)
-// board2.placeShip(destroyer, 'vertical', 2, 2)
-// board2.placeShip(destroyer, 'vertical', 2, 2)
+// board2.placeShip(submarine, 'vertical', 4, 4)
+// board2.placeShip(carrier, 'horizontal', 9, 0)
+// board2.placeShip(battleship, 'horizontal', 0, 0)
+// board2.placeShip(patrolBoat, 'vertical', 0, 9)
+
+// board1.placeShip(destroyer, 'vertical', 0, 0)
+// board1.placeShip(submarine, 'vertical', 3, 2)
+// board1.placeShip(carrier, 'horizontal', 5, 5)
+// board1.placeShip(battleship, 'horizontal', 8, 0)
+// board1.placeShip(patrolBoat, 'vertical', 0, 9)
 
 
-
-//displays board
+//displays board- initial
 let block1 = document.getElementById("board1")
 let block2 = document.getElementById("board2")
 board1.display(block1, player1.UID);
 board2.display(block2, player2.UID);
+clickBlockToReveal()
+
+
+function clickBlockToReveal() {
+    let cellCovers = document.getElementsByClassName('cellCover');
+
+    for (let i = 0; i < cellCovers.length; i++) {
+        cellCovers[i].addEventListener('click', function (event) {
+            let cellBoardId = this.parentElement.id;
+            // console.log(cellBoardId)
+            let xAttack = cellBoardId.charAt(5);
+            let yAttack = cellBoardId.charAt(7);
+            let clickedPlayerID = cellBoardId.substring(9, 11)
+            // inactivePlayer.UID = cellBoardId.substring(8, 10)
+            // console.log(clickedPlayerID)
+
+            attackXInput.value = xAttack;
+            attackYInput.value = yAttack;
+            // inactivePlayer.UID=
+            if (inactivePlayer.UID == clickedPlayerID) {
+                attackButton.click()
+            } else {
+                alert('invalid click')
+            }
+
+
+        });
+    }
+}
+
+function gameWorkLogic(attackX, attackY) {
+    let hitCellValue = inactivePlayer.board.boardArr[attackX][attackY]
+
+    //conditions to check cell value and hit ship
+    //also add completely hit ship to player array
+    if (hitCellValue == 'C') {
+        inactivePlayer.shipArray[0].hit();
+        let sunkCheck = inactivePlayer.shipArray[0].isSunk()
+        if (sunkCheck) {
+            inactivePlayer.sunkenShips.push(inactivePlayer.shipArray[0])
+        }
+    }
+    if (hitCellValue == 'B') {
+        inactivePlayer.shipArray[1].hit();
+        let sunkCheck = inactivePlayer.shipArray[1].isSunk()
+        if (sunkCheck) {
+            inactivePlayer.sunkenShips.push(inactivePlayer.shipArray[1])
+        }
+    }
+    if (hitCellValue == 'D') {
+        inactivePlayer.shipArray[2].hit();
+        let sunkCheck = inactivePlayer.shipArray[2].isSunk()
+        if (sunkCheck) {
+            inactivePlayer.sunkenShips.push(inactivePlayer.shipArray[2])
+        }
+    }
+    if (hitCellValue == 'P') {
+        inactivePlayer.shipArray[3].hit();
+        let sunkCheck = inactivePlayer.shipArray[3].isSunk()
+        if (sunkCheck) {
+            inactivePlayer.sunkenShips.push(inactivePlayer.shipArray[3])
+        }
+    }
+    if (hitCellValue == 'S') {
+        inactivePlayer.shipArray[4].hit();
+        let sunkCheck = inactivePlayer.shipArray[4].isSunk()
+        if (sunkCheck) {
+            inactivePlayer.sunkenShips.push(inactivePlayer.shipArray[4])
+        }
+    }
+
+    console.log(inactivePlayer.sunkenShips.length)
+
+    if (inactivePlayer.sunkenShips.length == 5) {
+        console.log(`${activePlayer.UID} WON`)
+        return true
+    }
+}
+
+function gameOverAction() {
+    alert("game over")
+
+}
 
 
 
-// for (let i = 0; i < 10; i++) {
-//     for (let j = 0; j < 10; j++) {
-//         let cellBoard1 = document.createElement("div");
-//         let cellBoard2 = document.createElement("div");
+function placeShipsRandomly() {
+    const ships = [
+        { name: 'carrier', size: 5, symbol: 'C' },
+        { name: 'battleship', size: 4, symbol: 'B' },
+        { name: 'destroyer', size: 3, symbol: 'D' },
+        { name: 'patrolBoat', size: 3, symbol: 'P' },
+        { name: 'submarine', size: 2, symbol: 'S' }
+    ];
 
-//         cellBoard1.classList.add("cellBoard1")
-//         cellBoard2.classList.add("cellBoard2")
+    function isValidCoordinate(x, y) {
+        return x >= 0 && x < 10 && y >= 0 && y < 10;
+    }
 
-//         cellBoard1.innerText = board1.boardArr[i][j]
-//         cellBoard2.innerText = board2.boardArr[i][j]
+    function canPlaceShip(board, x, y, size, isVertical) {
+        for (let i = 0; i < size; i++) {
+            const checkX = isVertical ? x + i : x;
+            const checkY = isVertical ? y : y + i;
 
-//         if (cellBoard1.innerHTML == 'C') {
-//             cellBoard1.style.backgroundColor = 'violet'
-//         }
-//         if (cellBoard2.innerHTML == 'C') {
-//             cellBoard2.style.backgroundColor = 'violet'
-//         }
+            if (!isValidCoordinate(checkX, checkY) || board.boardArr[checkX][checkY] !== 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-//         if (cellBoard1.innerHTML == 'B') {
-//             cellBoard1.style.backgroundColor = 'green'
-//         }
-//         if (cellBoard2.innerHTML == 'B') {
-//             cellBoard2.style.backgroundColor = 'green'
-//         }
+    function placeShip(board, ship) {
+        let attempts = 0;
+        const maxAttempts = 100;
 
-//         if (cellBoard1.innerHTML == 'D') {
-//             cellBoard1.style.backgroundColor = 'yellow'
-//         }
-//         if (cellBoard2.innerHTML == 'D') {
-//             cellBoard2.style.backgroundColor = 'yellow'
-//         }
+        while (attempts < maxAttempts) {
+            const isVertical = Math.random() < 0.5;
+            const x = Math.floor(Math.random() * 10);
+            const y = Math.floor(Math.random() * 10);
 
-//         if (cellBoard1.innerHTML == 'P') {
-//             cellBoard1.style.backgroundColor = 'orange'
-//         }
-//         if (cellBoard2.innerHTML == 'P') {
-//             cellBoard2.style.backgroundColor = 'orange'
-//         }
+            if (canPlaceShip(board, x, y, ship.size, isVertical)) {
+                const orientation = isVertical ? 'vertical' : 'horizontal';
+                board.placeShip({ length: ship.size, uid: ship.symbol }, orientation, x, y);
+                console.log(`Successfully placed ${ship.name} at (${x}, ${y}), ${orientation}`);
+                return true;
+            }
 
-//         if (cellBoard1.innerHTML == 'S') {
-//             cellBoard1.style.backgroundColor = 'blue'
-//         }
-//         if (cellBoard2.innerHTML == 'S') {
-//             cellBoard2.style.backgroundColor = 'blue'
-//         }
+            attempts++;
+        }
 
-//         b1.appendChild(cellBoard1)
-//         b2.appendChild(cellBoard2)
+        console.log(`Failed to place ${ship.name} after ${maxAttempts} attempts`);
+        return false;
+    }
 
-//     }
-// }
+    let placementAttempts = 0;
+    const maxPlacementAttempts = 50;
 
+    while (placementAttempts < maxPlacementAttempts) {
+        let success = true;
+        board1.resetBoard();
+        board2.resetBoard();
 
+        for (const ship of ships) {
+            if (!placeShip(board1, ship) || !placeShip(board2, ship)) {
+                success = false;
+                break;
+            }
+        }
 
+        if (success) {
+            console.log('All ships placed successfully!');
+            return true;
+        }
+
+        placementAttempts++;
+        console.log(`Attempt ${placementAttempts}: Failed to place all ships. Retrying.`);
+    }
+
+    console.log(`Failed to place all ships after ${maxPlacementAttempts} attempts`);
+    return false;
+}
