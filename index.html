@@ -16,25 +16,74 @@
             <div id="turnMessage"></div>
             <div class="attackInput">
                 <form action="">
-                    <label id="attackInputForm">Enter the attack co-ordinates</label>
+                    <label id="attackInputForm">ENTER CO-ORDS OR CLICK TO ATTACK</label>
                     <div class="coordsInput">
                         <input type="number" max="9" min="0" id="attackX" required>
                         <input type="number" max="9" min="0" id="attackY" required>
                     </div>
-                    <button id="attackButton">Attack!!!</button>
+                    <button id="attackButton">ATTACK!!!</button>
                 </form>
             </div>
-            <button id="randomPlaceShips">Place Ships Randomly</button>
-            <button id="startBtn">Start</button>
+            <button id="randomPlaceShips">PLACE SHIPS RANDOMLY</button>
+            <button id="startBtn">START</button>
         </div>
         <div id="board2"></div>
     </div>
     <div class="lower">
         <div class="legend">
-            legend
+            <table>
+                <tr>
+                    <td>
+                        <div class="legendSquare CARRIER"></div>
+                        <div class="legendSquare CARRIER"></div>
+                        <div class="legendSquare CARRIER"></div>
+                        <div class="legendSquare CARRIER"></div>
+                        <div class="legendSquare CARRIER"></div>
+                    </td>
+                    <td>CARRIER</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="legendSquare BATTLESHIP"></div>
+                        <div class="legendSquare BATTLESHIP"></div>
+                        <div class="legendSquare BATTLESHIP"></div>
+                        <div class="legendSquare BATTLESHIP"></div>
+                    </td>
+                    <td>BATTLESHIP</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="legendSquare DESTROYER"></div>
+                        <div class="legendSquare DESTROYER"></div>
+                        <div class="legendSquare DESTROYER"></div>
+                    </td>
+                    <td>DESTROYER</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="legendSquare PATROL-BOAT"></div>
+                        <div class="legendSquare PATROL-BOAT"></div>
+                        <div class="legendSquare PATROL-BOAT"></div>
+                    </td>
+                    <td>PATROL-BOAT</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="legendSquare SUBMARINE"></div>
+                        <div class="legendSquare SUBMARINE"></div>
+                    </td>
+                    <td>SUBMARINE</td>
+                </tr>
+            </table>
         </div>
         <div class="rules">
-            rules
+            <h2>Game Rules</h2>
+            <ol>
+                <li>1: Click on random ship placement untill you are satisfied with the arrangement, then press START.
+                </li>
+                <li>2: Click on the opponent's board to reveal what's underneath</li>
+                <li>3: Whoever reals all their opponent's ships first, wins.</li>
+            </ol>
         </div>
     </div>
 

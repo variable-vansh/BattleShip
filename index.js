@@ -29,7 +29,7 @@ let shipsPlaced = false;
 
 let turnMessage = document.getElementById('turnMessage')
 if (shipsPlaced == false) {
-    turnMessage.innerText = "Place ships"
+    turnMessage.innerText = "PLACE SHIPS"
 }
 
 // b1.style.backgroundColor = "blue"
@@ -41,9 +41,6 @@ if (shipsPlaced == false) {
 let attackButton = document.getElementById('attackButton');
 let attackXInput = document.getElementById('attackX');
 let attackYInput = document.getElementById('attackY');
-
-
-
 
 
 attackButton.addEventListener('click', function (e) {
@@ -89,26 +86,22 @@ attackButton.addEventListener('click', function (e) {
 
     }
 
-
-    // if (activePlayer.UID == 'p2') {
-    //     let activeBoardBorder = document.getElementById('board1')
-    //     let inActiveBoardBorder = document.getElementById('board2')
-
-    //     activeBoardBorder.style.borderColor = "#001426"
-    //     inActiveBoardBorder.style.borderColor = "#003566"
-
-    // } else if (activePlayer.UID == 'p1') {
-    //     let activeBoardBorder = document.getElementById('board2')
-    //     let inActiveBoardBorder = document.getElementById('board1')
-
-    //     activeBoardBorder.style.borderColor = "#003566"
-    //     inActiveBoardBorder.style.borderColor = "#001426"
-    // }
-
-
-
     let attackX = parseInt(attackXInput.value);
     let attackY = parseInt(attackYInput.value);
+
+    if (activePlayer.UID == 'p2') {
+        attackX = Math.floor(Math.random() * 9);
+        attackY = Math.floor(Math.random() * 9);
+        //     // attackX = 0;
+        //     // attackY = 0;
+        //     // let jugaadClick = document.getElementById('cell-0-0-p1-display');
+        //     // let jugadClickCover = document.getElementsByClassName('cellCover')
+        //     // jugaadClick.addEventListener('click', function () {
+        //     //     console.log("dummy click by computer hehe! who would see")
+        //     // })
+        //     // jugaadClick.click()
+    }
+
 
     //game working logic
     let isGameOver = gameWorkLogic(attackX, attackY)
@@ -135,16 +128,23 @@ attackButton.addEventListener('click', function (e) {
     activePlayer = inactivePlayer
     inactivePlayer = temp;
 
+    if (inactivePlayer.UID == 'p1') {
+        setTimeout(() => {
+            attackButton.click()
+        }, 500);
+    }
+
 
     attackXInput.value = ''
     attackYInput.value = '';
+
 }
 )
 
 let randomPlaceShips = document.getElementById('randomPlaceShips');
 randomPlaceShips.addEventListener('click', function () {
     shipsPlaced = true;
-    turnMessage.innerText = "Ships placed"
+    turnMessage.innerText = "SHIPS PLACED"
 
     if (placeShipsRandomly()) {
         // Update the display after successful placement
@@ -226,8 +226,6 @@ startButton.addEventListener('click', function () {
 
     let attackButton = document.getElementById('attackButton');
     attackButton.disabled = false
-
-
 })
 
 function clickBlockToReveal() {
@@ -281,7 +279,6 @@ function clickBlockToReveal() {
             } else {
                 alert('invalid click')
             }
-
 
         });
     }
@@ -337,7 +334,18 @@ function gameWorkLogic(attackX, attackY) {
 }
 
 function gameOverAction() {
-    alert("game over")
+    if (activePlayer.UID == 'p1') {
+        turnMessage.innerText = "COMPUTER WON"
+    } else {
+        turnMessage.innerText = "YOU WON"
+    }
+
+    const buttons = activeBoardBorder.querySelectorAll('button');
+
+    // Disable all selected buttons
+    buttons.forEach(button => {
+        button.disabled = true;
+    });
 
 }
 
@@ -420,6 +428,17 @@ function placeShipsRandomly() {
     console.log(`Failed to place all ships after ${maxPlacementAttempts} attempts`);
 
     return false;
+}
+
+function computerPlays() {
+    //generates Random X and Y co-ords
+    let compX = Math.floor(Math.random() * 10)
+    let compY = Math.floor(Math.random() * 10)
+
+    //attacks those co-ords
+    attackXInput.value = compX;
+    attackYInput.value = compY;
+
 }
 
 attackButton.disabled = true
