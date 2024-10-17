@@ -37,7 +37,7 @@ if (shipsPlaced == false) {
 
 // console.log(board1.boardArr)
 
-
+let compClickedArr = [];
 let attackButton = document.getElementById('attackButton');
 let attackXInput = document.getElementById('attackX');
 let attackYInput = document.getElementById('attackY');
@@ -90,16 +90,16 @@ attackButton.addEventListener('click', function (e) {
     let attackY = parseInt(attackYInput.value);
 
     if (activePlayer.UID == 'p2') {
-        attackX = Math.floor(Math.random() * 9);
-        attackY = Math.floor(Math.random() * 9);
-        //     // attackX = 0;
-        //     // attackY = 0;
-        //     // let jugaadClick = document.getElementById('cell-0-0-p1-display');
-        //     // let jugadClickCover = document.getElementsByClassName('cellCover')
-        //     // jugaadClick.addEventListener('click', function () {
-        //     //     console.log("dummy click by computer hehe! who would see")
-        //     // })
-        //     // jugaadClick.click()
+
+
+        attackX = parseInt(computerPlays().attackX);
+        attackY = parseInt(computerPlays().attackY);
+        compClickedArr.push([attackX, attackY])
+
+        console.log(attackX);
+        console.log(attackY);
+        console.log(compClickedArr)
+
     }
 
 
@@ -286,7 +286,7 @@ function clickBlockToReveal() {
 
 function gameWorkLogic(attackX, attackY) {
     let hitCellValue = inactivePlayer.board.boardArr[attackX][attackY]
-    console.log(hitCellValue)
+    // console.log(hitCellValue)
     //conditions to check cell value and hit ship
     //also add completely hit ship to player array
     if (hitCellValue == 'C') {
@@ -326,6 +326,7 @@ function gameWorkLogic(attackX, attackY) {
     }
 
     // console.log(inactivePlayer.sunkenShips.length)
+    console.log(`${activePlayer.type} has hit ${inactivePlayer.sunkenShips.length} ships`)
 
     if (inactivePlayer.sunkenShips.length == 5) {
         console.log(`${activePlayer.UID} WON`)
@@ -431,14 +432,14 @@ function placeShipsRandomly() {
 }
 
 function computerPlays() {
-    //generates Random X and Y co-ords
-    let compX = Math.floor(Math.random() * 10)
-    let compY = Math.floor(Math.random() * 10)
+    let attackX = Math.floor(Math.random() * 9);
+    let attackY = Math.floor(Math.random() * 9);
 
-    //attacks those co-ords
-    attackXInput.value = compX;
-    attackYInput.value = compY;
-
+    if (compClickedArr.includes([attackX, attackY])) {
+        computerPlays();
+    } else {
+        return { attackX, attackY }
+    }
 }
 
 attackButton.disabled = true
