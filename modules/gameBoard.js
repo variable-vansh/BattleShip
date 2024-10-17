@@ -68,6 +68,9 @@ class Gameboard {
         let cell = document.getElementById(`cell-${x}-${y}-${UID}`);
         let cellCover = cell.querySelector('.cellCover');
 
+        let cellDisplay = document.getElementById(`cell-${x}-${y}-${UID}-display`)
+        cellDisplay.classList.add('revealed')
+
         if (cellCover) {
             cellCover.classList.add('revealed');
             this.revealedCells.push([x, y, UID]);
@@ -107,6 +110,11 @@ class Gameboard {
     }
 
     display(block, UID) {
+        //cellBoard is the botttom-most cell layer that runs the logic
+        //cellDisplay goes above cellBoard, it shows up when the cell is clicked
+        //cellCover is the topmost layer to cover everything else up
+
+
         block.innerHTML = '';
 
         for (let i = 0; i < 10; i++) {
@@ -119,47 +127,64 @@ class Gameboard {
                 let cellCover = document.createElement('button')
                 cellCover.classList.add("cellCover")
 
+                let cellDisplay = document.createElement('div');
+                cellDisplay.classList.add("cellDisplay")
+                cellDisplay.id = `cell-${i}-${j}-${UID}-display` // Add an ID to the cell
+                // cellDisplay.innerText = 'dis'
+
+
                 // Check if the cell has been revealed
                 if (this.revealedCells.find(cell => cell[0] === i && cell[1] === j && cell[2] === UID)) {
                     cellCover.classList.add('revealed') // Reveal the cell
+                    if (this.boardArr[i][j] == 'C' || this.boardArr[i][j] == 'B' || this.boardArr[i][j] == 'D' || this.boardArr[i][j] == 'P' || this.boardArr[i][j] == 'S') {
+                        // cellDisplay.innerText = '';
+                        cellDisplay.classList.add('revealed')
+                    }
                 }
 
-                if (cellBoard.innerHTML == 'C') {
-                    cellBoard.style.backgroundColor = 'violet'
+                if (this.boardArr[i][j] == 'C') {
+                    cellDisplay.style.backgroundColor = '#2C7CE5'
                 }
-                if (cellBoard.innerHTML == 'B') {
-                    cellBoard.style.backgroundColor = 'green'
+                if (this.boardArr[i][j] == 'B') {
+                    cellDisplay.style.backgroundColor = '#49CC5C'
                 }
-                if (cellBoard.innerHTML == 'D') {
-                    cellBoard.style.backgroundColor = 'yellow'
+                if (this.boardArr[i][j] == 'D') {
+                    cellDisplay.style.backgroundColor = '#F8C421'
                 }
-                if (cellBoard.innerHTML == 'P') {
-                    cellBoard.style.backgroundColor = 'orange'
+                if (this.boardArr[i][j] == 'P') {
+                    cellDisplay.style.backgroundColor = '#FB6640'
                 }
-                if (cellBoard.innerHTML == 'S') {
-                    cellBoard.style.backgroundColor = 'blue'
+                if (this.boardArr[i][j] == 'S') {
+                    cellDisplay.style.backgroundColor = '#F82553'
                 }
 
-                cellBoard.appendChild(cellCover)
+                // if (cellBoard.innerHTML == 'C') {
+                //     cellBoard.style.backgroundColor = 'violet'
+                // }
+                // if (cellBoard.innerHTML == 'B') {
+                //     cellBoard.style.backgroundColor = 'green'
+                // }
+                // if (cellBoard.innerHTML == 'D') {
+                //     cellBoard.style.backgroundColor = 'yellow'
+                // }
+                // if (cellBoard.innerHTML == 'P') {
+                //     cellBoard.style.backgroundColor = 'orange'
+                // }
+                // if (cellBoard.innerHTML == 'S') {
+                //     cellBoard.style.backgroundColor = 'blue'
+                // }
+
+                // cellBoard.appendChild(cellCover)
+                // block.appendChild(cellBoard)
+
+                cellBoard.appendChild(cellDisplay)
+                cellDisplay.appendChild(cellCover)
                 block.appendChild(cellBoard)
 
-                // let cellCovers = document.getElementsByClassName('cellCover');
-
-                // for (let i = 0; i < cellCovers.length; i++) {
-                //     cellCovers[i].addEventListener('click', function (event) {
-                //         let cellBoardId = this.parentElement.id;
-                //         let xAttack = cellBoardId.charAt(5);
-                //         let yAttack = cellBoardId.charAt(7);
-
-                //         console.log(xAttack);
-                //         console.log(yAttack);
-
-
-
-                //     });
-                // }
             }
         }
+
+
 
     }
 

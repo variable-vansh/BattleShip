@@ -25,6 +25,12 @@ let submarine = new Ship(2, 'S')
 let activePlayer = player1;
 let inactivePlayer = player2;
 
+let shipsPlaced = false;
+
+let turnMessage = document.getElementById('turnMessage')
+if (shipsPlaced == false) {
+    turnMessage.innerText = "Place ships"
+}
 
 // b1.style.backgroundColor = "blue"
 // b2.style.backgroundColor = "blue"
@@ -37,9 +43,69 @@ let attackXInput = document.getElementById('attackX');
 let attackYInput = document.getElementById('attackY');
 
 
+
+
+
 attackButton.addEventListener('click', function (e) {
     // Prevent the default form submission behavior
     e.preventDefault();
+
+    if (activePlayer.UID == 'p2') {
+        turnMessage.innerText = "IT'S YOUR TURN"
+    } else {
+        turnMessage.innerText = "COMPUTER'S TURN"
+    }
+
+    if (activePlayer.UID == 'p2') {
+        console.log(`p1's turn`)
+        let activeBoardBorder = document.getElementById('board1')
+        let inActiveBoardBorder = document.getElementById('board2')
+
+        activeBoardBorder.style.opacity = 0.7;
+        inActiveBoardBorder.style.opacity = 1;
+
+        // Select all buttons within that div
+        const buttons = activeBoardBorder.querySelectorAll('.coverButtons');
+
+        // Disable all selected buttons
+        buttons.forEach(button => {
+            button.disabled = true;
+        });
+
+    } else if (activePlayer.UID == 'p1') {
+        console.log(`p2's turn`)
+        let activeBoardBorder = document.getElementById('board1')
+        let inActiveBoardBorder = document.getElementById('board2')
+
+        activeBoardBorder.style.opacity = 1;
+        inActiveBoardBorder.style.opacity = 0.7;
+
+        const buttons = inActiveBoardBorder.querySelectorAll('button');
+
+        // Disable all selected buttons
+        buttons.forEach(button => {
+            button.disabled = true;
+        });
+
+    }
+
+
+    // if (activePlayer.UID == 'p2') {
+    //     let activeBoardBorder = document.getElementById('board1')
+    //     let inActiveBoardBorder = document.getElementById('board2')
+
+    //     activeBoardBorder.style.borderColor = "#001426"
+    //     inActiveBoardBorder.style.borderColor = "#003566"
+
+    // } else if (activePlayer.UID == 'p1') {
+    //     let activeBoardBorder = document.getElementById('board2')
+    //     let inActiveBoardBorder = document.getElementById('board1')
+
+    //     activeBoardBorder.style.borderColor = "#003566"
+    //     inActiveBoardBorder.style.borderColor = "#001426"
+    // }
+
+
 
     let attackX = parseInt(attackXInput.value);
     let attackY = parseInt(attackYInput.value);
@@ -69,6 +135,7 @@ attackButton.addEventListener('click', function (e) {
     activePlayer = inactivePlayer
     inactivePlayer = temp;
 
+
     attackXInput.value = ''
     attackYInput.value = '';
 }
@@ -76,6 +143,9 @@ attackButton.addEventListener('click', function (e) {
 
 let randomPlaceShips = document.getElementById('randomPlaceShips');
 randomPlaceShips.addEventListener('click', function () {
+    shipsPlaced = true;
+    turnMessage.innerText = "Ships placed"
+
     if (placeShipsRandomly()) {
         // Update the display after successful placement
         board1.display(block1, player1.UID);
@@ -84,6 +154,20 @@ randomPlaceShips.addEventListener('click', function () {
     } else {
         alert("Failed to place ships randomly. Please try again.");
     }
+
+    //disable all board buttons in the start, they are enanled only when start is clicked
+    let coverButtons = document.querySelectorAll('.cellCover');
+    coverButtons.forEach(button => {
+        button.disabled = true;
+    });
+    startButton.disabled = false
+
+    let board1cover = document.querySelector('#board1')
+    let playerBoardCover = board1cover.querySelectorAll('.cellCover')
+    playerBoardCover.forEach(cover => {
+        cover.style.opacity = 0;
+    });
+
 });
 
 //dummy play
@@ -109,9 +193,75 @@ board1.display(block1, player1.UID);
 board2.display(block2, player2.UID);
 clickBlockToReveal()
 
+//disable all board buttons in the start, they are enanled only when start is clicked
+let coverButtons = document.querySelectorAll('.cellCover');
+coverButtons.forEach(button => {
+    button.disabled = true;
+});
+
+let startButton = document.getElementById('startBtn');
+startButton.disabled = true
+
+startButton.addEventListener('click', function () {
+    let coverButtons = document.querySelectorAll('.cellCover');
+    coverButtons.forEach(button => {
+        button.disabled = false;
+    });
+    startButton.disabled = true
+
+    let board1cover = document.querySelector('#board1')
+    let playerBoardCover = board1cover.querySelectorAll('.cellCover')
+    playerBoardCover.forEach(cover => {
+        cover.style.opacity = 1;
+    });
+
+    let activeBoardBorder = document.getElementById('board1')
+    let inActiveBoardBorder = document.getElementById('board2')
+
+    activeBoardBorder.style.opacity = 0.7;
+    inActiveBoardBorder.style.opacity = 1;
+
+    randomPlaceShips.disabled = true
+    turnMessage.innerText = "IT'S YOUR TURN"
+
+    let attackButton = document.getElementById('attackButton');
+    attackButton.disabled = false
+
+
+})
 
 function clickBlockToReveal() {
     let cellCovers = document.getElementsByClassName('cellCover');
+
+
+    if (activePlayer.UID == 'p2') {
+        console.log(`p1's turn`)
+        let activeBoardBorder = document.getElementById('board1')
+        // let inActiveBoardBorder = document.getElementById('board2')
+
+
+        // Select all buttons within that div
+        const buttons = activeBoardBorder.querySelectorAll('.coverButtons');
+
+        // Disable all selected buttons
+        buttons.forEach(button => {
+            button.disabled = true;
+        });
+
+    } else if (activePlayer.UID == 'p1') {
+        console.log(`p2's turn`)
+        let activeBoardBorder = document.getElementById('board1')
+        let inActiveBoardBorder = document.getElementById('board2')
+
+
+        const buttons = inActiveBoardBorder.querySelectorAll('button');
+
+        // Disable all selected buttons
+        buttons.forEach(button => {
+            button.disabled = true;
+        });
+
+    }
 
     for (let i = 0; i < cellCovers.length; i++) {
         cellCovers[i].addEventListener('click', function (event) {
@@ -139,7 +289,7 @@ function clickBlockToReveal() {
 
 function gameWorkLogic(attackX, attackY) {
     let hitCellValue = inactivePlayer.board.boardArr[attackX][attackY]
-
+    console.log(hitCellValue)
     //conditions to check cell value and hit ship
     //also add completely hit ship to player array
     if (hitCellValue == 'C') {
@@ -178,7 +328,7 @@ function gameWorkLogic(attackX, attackY) {
         }
     }
 
-    console.log(inactivePlayer.sunkenShips.length)
+    // console.log(inactivePlayer.sunkenShips.length)
 
     if (inactivePlayer.sunkenShips.length == 5) {
         console.log(`${activePlayer.UID} WON`)
@@ -192,8 +342,10 @@ function gameOverAction() {
 }
 
 
-
 function placeShipsRandomly() {
+
+
+
     const ships = [
         { name: 'carrier', size: 5, symbol: 'C' },
         { name: 'battleship', size: 4, symbol: 'B' },
@@ -266,5 +418,16 @@ function placeShipsRandomly() {
     }
 
     console.log(`Failed to place all ships after ${maxPlacementAttempts} attempts`);
+
     return false;
 }
+
+attackButton.disabled = true
+
+// let activeBoardBorder = document.getElementById('board1')
+// let inActiveBoardBorder = document.getElementById('board2')
+
+// activeBoardBorder.style.opacity = 0.7;
+// inActiveBoardBorder.style.opacity = 1;
+
+

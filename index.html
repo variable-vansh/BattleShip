@@ -6,25 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <title>test</title> -->
     <link rel="stylesheet" href="./style.css">
+    <link rel="shortcut icon" href="#">
 </head>
 
 <body>
     <div id="boards">
         <div id="board1"></div>
+        <div class="mid">
+            <div id="turnMessage"></div>
+            <div class="attackInput">
+                <form action="">
+                    <label id="attackInputForm">Enter the attack co-ordinates</label>
+                    <div class="coordsInput">
+                        <input type="number" max="9" min="0" id="attackX" required>
+                        <input type="number" max="9" min="0" id="attackY" required>
+                    </div>
+                    <button id="attackButton">Attack!!!</button>
+                </form>
+            </div>
+            <button id="randomPlaceShips">Place Ships Randomly</button>
+            <button id="startBtn">Start</button>
+        </div>
         <div id="board2"></div>
     </div>
-    <div id="turnBox"></div>
-    <div class="attackInput">
-        <form action="">
-            <label id="attackInputForm">Enter the attack co-ordinates</label>
-            <div class="coordsInput">
-                <input type="number" max="9" min="0" id="attackX" required>
-                <input type="number" max="9" min="0" id="attackY" required>
-            </div>
-            <button id="attackButton">Attack!!!</button>
-        </form>
+    <div class="lower">
+        <div class="legend">
+            legend
+        </div>
+        <div class="rules">
+            rules
+        </div>
     </div>
-    <button id="randomPlaceShips">Set up board</button>
+
     <script type="module" src="./index.js"></script>
 </body>
 
